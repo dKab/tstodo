@@ -3,6 +3,9 @@ const path = require('path');
 module.exports = {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  },
   module: {
     rules: [
       {
@@ -16,6 +19,14 @@ module.exports = {
           'style-loader',
           'css-loader'
         ]
+      },
+      {
+        test: /\.html$/,
+        loader: "underscore-template-loader",
+        query: {
+            engine: 'lodash',
+            variable: 'data'
+        }
       }
     ]
   },

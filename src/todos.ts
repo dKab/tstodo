@@ -123,9 +123,7 @@ export class Todos {
 
   render(callback?: Function) {
     var self = this;
-    util.loadTemplate('todos.html')
-      .then(function (xhr: any, templateString: string) {
-        var compiled = template(templateString, { variable: 'data' });
+        var compiled = require('../templates/todos.html');
         var filtered;
         if (this.conditions.text) {
           try {
@@ -153,7 +151,6 @@ export class Todos {
         if (callback) {
           callback();
         }
-      });
   }
 
   addTodo(todo: string) {

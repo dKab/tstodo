@@ -12,18 +12,18 @@ export class AddForm {
   }
 
   init() {
-    var self = this;
     this.elem.addEventListener('keyup', (e) => {
       if (e.keyCode == 13) {
-        self.add();
+        this.add();
       }
     });
     this.elem.addEventListener('click', (e) => {
       if (~(<HTMLElement>e.target).className.indexOf('add-form__btn-js')) {
-        self.add();
+        this.add();
       }
     })
   }
+  
   add() {
     //get value of input elem
     var input = <HTMLInputElement>this.elem.querySelector('input[type=text]');
