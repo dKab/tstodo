@@ -34,8 +34,8 @@ export class Todos {
       }
       var newText = trim(e.target.textContent);
       if (newText) {
+        modelBeingEdited.text = newText;
         this.mediator.publish('todosUpdate', this.todos);
-        modelBeingEdited.text = newText
       }
       e.target.textContent = modelBeingEdited.text;
 
@@ -127,7 +127,7 @@ export class Todos {
         var filtered;
         if (this.conditions.text) {
           try {
-            filtered = this.todos.filter(function (model: TodoItem) {
+            filtered = this.todos.filter((model: TodoItem) => {
               var passes = true;
               if (this.conditions.checked === false) {
                 passes = !model.checked;
