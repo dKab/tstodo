@@ -1,15 +1,8 @@
 import { trim } from 'lodash';
 import { Mediator } from './mediator';
+import { Component } from './Component';
 
-export class AddForm {
-  
-  mediator: Mediator;
-  elem: HTMLElement;
-
-  constructor(id: string, mediator: Mediator) {
-    this.elem = document.getElementById(id);
-    this.mediator = mediator;
-  }
+export class AddForm extends Component {
 
   init() {
     this.elem.addEventListener('keyup', (e) => {
@@ -29,7 +22,7 @@ export class AddForm {
     var input = <HTMLInputElement>this.elem.querySelector('input[type=text]');
     var text = trim(input.value);
     if (text) {
-      this.mediator.publish('newTodo', text);
+      this.notify('newTodo', text);
       input.value = '';
       input.focus();
     }

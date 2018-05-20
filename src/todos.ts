@@ -2,18 +2,12 @@ import { findIndex, find, template, trim } from 'lodash';
 import { Mediator } from './mediator';
 import { util } from './util';
 import { TodoItem } from './TodoItem';
+import { Component } from './Component';
 
-export class Todos {
+export class Todos extends Component {
 
-  elem: HTMLElement;
-  mediator: Mediator;
   todos: TodoItem[] = [];
   conditions: {text?: string, checked?: boolean} = {};
-
-  constructor(id: string, mediator: Mediator) {
-    this.elem = document.getElementById(id);
-    this.mediator = mediator;
-  }
 
   private updateCounter(which: any, how: any) {
     var blockToUpdate = document.getElementById('count__' + which);
@@ -35,7 +29,7 @@ export class Todos {
       var newText = trim(e.target.textContent);
       if (newText) {
         modelBeingEdited.text = newText;
-        this.mediator.publish('todosUpdate', this.todos);
+        this.notify('todosUpdate', this.todos);
       }
       e.target.textContent = modelBeingEdited.text;
 
@@ -91,7 +85,7 @@ export class Todos {
         var model = this.todos.splice(index, 1).pop();
         model.checked = target.checked;
         this.todos.push(model);
-        this.mediator.publish('todosUpdate', this.todos);
+        this.notify('todosUpdate', this.todos);
         this.render();
       }
     }
@@ -106,7 +100,7 @@ export class Todos {
       li.parentNode.removeChild(li);
       var countToUpdate = model.checked ? 'archive' : 'active';
       this.updateCounter(countToUpdate, -1);
-      this.mediator.publish('todosUpdate', this.todos);
+      this.notify('todosUpdate', this.todos);
     } else {
       throw new Error('Model with such id has not found');
     }
@@ -159,7 +153,7 @@ export class Todos {
       text: todo
     };
     this.todos.unshift(model);
-    this.mediator.publish('todosUpdate', this.todos);
+    this.notify('todosUpdate', this.todos);
     this.render();
   }
 }

@@ -1,23 +1,18 @@
 import { Mediator } from "./mediator";
+import { Component } from "./Component";
 
-export class Search {
+export class Search extends Component {
 
-  elem: HTMLElement;
-  mediator: Mediator;
   filterPredicate = {
     text: '',
     checked: true
   };
-  constructor(id: string, mediator: Mediator) {
-    this.elem = document.getElementById(id);
-    this.mediator = mediator;
-  }
 
   updatePredicate(e: { target: Element; }) {
     var input = <HTMLInputElement>this.elem.querySelector('input[type=text]');
     if (e.target === input) {
       this.filterPredicate.text = input.value;
-      this.notify();
+      this.notify('filterUpdate', this.filterPredicate);
     }
   }
 
@@ -29,17 +24,14 @@ export class Search {
   clear() {
     this.filterPredicate.text = '';
     (<HTMLInputElement>this.elem.querySelector('input[type=text]')).value = '';
-    this.notify();
+    this.notify('filterUpdate', this.filterPredicate);
   }
 
   togglechecked(e: { target: Element; }) {
     var checkbox = <HTMLInputElement>this.elem.querySelector('input[type=checkbox]');
     if (e.target === checkbox) {
       this.filterPredicate.checked = !checkbox.checked;
-      this.notify();
+      this.notify('filterUpdate', this.filterPredicate);
     }
-  }
-  notify() {
-    this.mediator.publish('filterUpdate', this.filterPredicate);
   }
 }
