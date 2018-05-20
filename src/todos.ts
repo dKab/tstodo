@@ -1,8 +1,8 @@
 import { findIndex, find, template, trim } from 'lodash';
 import { Mediator } from './mediator';
-import { util } from './util';
 import { TodoItem } from './TodoItem';
 import { Component } from './Component';
+import { Events } from './events';
 
 export class Todos extends Component {
 
@@ -29,7 +29,7 @@ export class Todos extends Component {
       var newText = trim(e.target.textContent);
       if (newText) {
         modelBeingEdited.text = newText;
-        this.notify('todosUpdate', this.todos);
+        this.notify(Events.TODOS_UPDATE, this.todos);
       }
       e.target.textContent = modelBeingEdited.text;
 
@@ -46,9 +46,9 @@ export class Todos extends Component {
     this.elem.addEventListener('click', this.onClick.bind(this), true);
     this.elem.addEventListener('keydown', this.finishEditingText.bind(this));
     this.elem.addEventListener('blur', this.finishEditingText.bind(this), true);
-    this.mediator.subscribe('todosAvailable', { context: this, fn: this.onTodosAvailable });
-    this.mediator.subscribe('newTodo', { context: this, fn: this.addTodo });
-    this.mediator.subscribe('filterUpdate', { context: this, fn: this.onFilterUpdate });
+    this.mediator.subscribe(Events.TODOS_AVAILABLE, { context: this, fn: this.onTodosAvailable });
+    this.mediator.subscribe(Events.NEW_TODO, { context: this, fn: this.addTodo });
+    this.mediator.subscribe(Events.FILTER_UPDATE, { context: this, fn: this.onFilterUpdate });
   }
 
   onFilterUpdate(filter: { text: string; checked: any; }) {
@@ -85,7 +85,7 @@ export class Todos extends Component {
         var model = this.todos.splice(index, 1).pop();
         model.checked = target.checked;
         this.todos.push(model);
-        this.notify('todosUpdate', this.todos);
+        this.notify(Events.TODOS_UPDATE, this.todos);
         this.render();
       }
     }
@@ -100,7 +100,7 @@ export class Todos extends Component {
       li.parentNode.removeChild(li);
       var countToUpdate = model.checked ? 'archive' : 'active';
       this.updateCounter(countToUpdate, -1);
-      this.notify('todosUpdate', this.todos);
+      this.notify(Events.TODOS_UPDATE, this.todos);
     } else {
       throw new Error('Model with such id has not found');
     }
@@ -113,6 +113,7 @@ export class Todos extends Component {
   onTodosAvailable = function (array: TodoItem[]) {
     this.todos.length = 0;
     Array.prototype.push.apply(this.todos, array);
+    this.render();
   }
 
   render(callback?: Function) {
@@ -153,7 +154,7 @@ export class Todos extends Component {
       text: todo
     };
     this.todos.unshift(model);
-    this.notify('todosUpdate', this.todos);
+    this.notify(Events.TODOS_UPDATE, this.todos);
     this.render();
   }
 }

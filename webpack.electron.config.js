@@ -3,9 +3,7 @@ const path = require('path');
 module.exports = {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
-  node: {
-    fs: 'empty'
-  },
+  target:'electron-renderer',
   devServer: {
     contentBase: './dist'
   },

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --progress --colors",
+    "build": "webpack --production --config=webpack.electron.config --progress --colors",
     "serve": "webpack-dev-server --open",
     "package": "electron-packager . --asar"
   },
@@ -15,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/qwest": "^1.7.28",
+    "electron-json-storage": "^4.1.0",
+    "electron-storage": "^1.0.7",
+    "fs": "0.0.1-security",
     "lodash": "^4.17.10",
-    "qwest": "^4.5.0",
     "typescript": "^2.8.3",
     "underscore-template-loader": "^1.0.0",
     "webpack-dev-server": "^3.1.4"

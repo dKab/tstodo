@@ -1,3 +1,5 @@
 /node_modules
 /dist/bundle.js
-/TODO-List-win-32-x64
+/dist/0.bundle.js
+/dist/1.bundle.js
+/TODO-List-win32-x64

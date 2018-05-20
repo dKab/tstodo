@@ -1,6 +1,7 @@
 import { trim } from 'lodash';
 import { Mediator } from './mediator';
 import { Component } from './Component';
+import { Events } from './events';
 
 export class AddForm extends Component {
 
@@ -22,7 +23,7 @@ export class AddForm extends Component {
     var input = <HTMLInputElement>this.elem.querySelector('input[type=text]');
     var text = trim(input.value);
     if (text) {
-      this.notify('newTodo', text);
+      this.notify(Events.NEW_TODO, text);
       input.value = '';
       input.focus();
     }
